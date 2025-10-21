@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, Typography, Button, CircularProgress, Card, CardContent, CardActions, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Alert } from '@mui/material';
 
-const API_BASE_URL = 'http://localhost:8000'; 
+const API_BASE_URL = 'https://nupzial-api-acc0f3hmhvg0c4d6.spaincentral-01.azurewebsites.net/';
 const BACKEND_ORIGIN = new URL(API_BASE_URL).origin;
 const FRONT_ORIGIN = window.location.origin;
 
