@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useData } from '../DataContext'; 
 
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'https://nupzial-api-acc0f3hmhvg0c4d6.spaincentral-01.azurewebsites.net/';
 
 export default function GeneracionesIADemo() {
   const location = useLocation();
