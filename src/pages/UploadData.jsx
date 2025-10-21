@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useVideo } from '../VideoContext';
 import { useData } from '../DataContext';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'https://nupzial-api-acc0f3hmhvg0c4d6.spaincentral-01.azurewebsites.net/';
 
 export default function UploadData() {
   const navigate = useNavigate();
