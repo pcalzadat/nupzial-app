@@ -1,60 +1,70 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy Node.js app to Azure Web App - nupzial-web
+# .github/workflows/deploy.yml
+name: Build and deploy Vite app to Azure Web App - nupzial-web
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
+      - name: Set up Node.js (18 LTS recomendado)
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: 18
+          cache: npm
 
-
-      - name: npm install, build, and test
+      - name: Install deps (ci si hay lock; si no, install)
         run: |
-          npm ci 
+          if [ -f package-lock.json ]; then
+            npm ci --no-audit --no-fund
+          else
+            npm install --no-audit --no-fund
+          fi
+
+      - name: Build (Vite)
+        env:
+          # Añade aquí tus variables de build si tu código usa import.meta.env.VITE_...
+          # Ejemplo:
+          VITE_RUNWAY_API_KEY: ${{ secrets.VITE_RUNWAY_API_KEY }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          NODE_OPTIONS: --max_old_space_size=4096
+        run: |
           npm run build
 
-      - name: Upload dist artifact           
+      - name: Verifica dist
+        run: |
+          test -d dist || (echo "dist/ no existe: falló el build"; exit 1)
+          ls -la dist | head -n 50
+
+      - name: Upload dist artifact
         uses: actions/upload-artifact@v4
         with:
           name: vite-dist
-          path: dist 
-
+          path: dist
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    
+
     steps:
-      - name: Download dist artifact          
+      - name: Download dist artifact
         uses: actions/download-artifact@v4
         with:
           name: vite-dist
           path: ./dist
-      
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
+
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'nupzial-web'
-          slot-name: 'Production'
-          package: ./dist  
-
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3C59087A9BCD441BADD6EF508BAD71BF }}
-
-
+          package: ./dist
+          # slot-name: 'production'   # opcional; puedes omitirlo
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3C59087A9BCD441BADD6EF508BAD71BF }}  # <-- tu secreto válido
