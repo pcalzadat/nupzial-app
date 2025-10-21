@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Typography, Box, Grid, Card, CardMedia, CardActions, CircularProgress } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'https://nupzial-api-acc0f3hmhvg0c4d6.spaincentral-01.azurewebsites.net/';
 
 export default function GeneracionesIA() {
   const location = useLocation();
