@@ -18,8 +18,7 @@ jobs:
       - name: Set up Node.js (18 LTS recomendado)
         uses: actions/setup-node@v4
         with:
-          node-version: 18
-          cache: npm
+          node-version: 20
 
       - name: Install deps (ci si hay lock; si no, install)
         run: |
@@ -68,3 +67,4 @@ jobs:
           package: ./dist
           # slot-name: 'production'   # opcional; puedes omitirlo
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_3C59087A9BCD441BADD6EF508BAD71BF }}  # <-- tu secreto válido
+
