@@ -128,29 +128,6 @@ export default function ImagesPreviewPage() {
           <Typography>No hay cartel generado</Typography>
         </Box>
       )}
-      <CardActions>
-        <Button 
-          variant="contained"
-          onClick={generarCartel} 
-          disabled={cartel.loading}
-          fullWidth
-          sx={{
-            backgroundColor: '#D29591',
-            color: 'white',
-            py: 1.5,
-            '&:hover': {
-              backgroundColor: '#AD5752',
-              boxShadow: '0 6px 8px rgba(0,0,0,0.15)',
-            },
-            '&:disabled': {
-              backgroundColor: '#e0e0e0',
-            },
-            transition: 'all 0.3s ease',
-          }}
-        >
-          {cartel.loading ? <CircularProgress size={24} /> : 'Volver a generar imagen Cartel'}
-        </Button>
-      </CardActions>
     </Card>
   );
 
