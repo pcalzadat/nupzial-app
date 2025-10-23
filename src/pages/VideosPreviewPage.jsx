@@ -239,13 +239,15 @@ export default function ImagesPreviewPage() {
 
       console.log('Sending video generation request with:', requestData);
 
-      const response = await fetch(`${API_BASE_URL}/api/generate_final_video`, {
+      const response = fetch(`${API_BASE_URL}/api/generate_final_video`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestData),
       });
+
+      navigate('/confirmacion_video')
 
       const data = await response.json();
       console.log('Video generation response:', data);

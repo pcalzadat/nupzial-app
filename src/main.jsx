@@ -8,6 +8,7 @@ import GeneracionVideo from './pages/GeneracionVideo.jsx';
 import ImagesPreviewPage from './pages/ImagesPreviewPage.jsx';
 import VideosPreviewPage from './pages/VideosPreviewPage.jsx';
 import GeneracionesIADemo from './pages/GeneracionesIADemo.jsx';
+import VideoConfirmation from './pages/VideoConfirmation.jsx';
 
 import { VideoProvider } from './VideoContext';
 import { DataProvider } from './DataContext.jsx';
@@ -27,6 +28,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/imagenes_ia" element={<ImagesPreviewPage />} />
               <Route path="/videos_ia" element={<VideosPreviewPage />} />
               <Route path="/generaciones_ia_demo" element={<GeneracionesIADemo />} />
+              <Route path="/confirmacion_video" element={<VideoConfirmation />} />
             </Routes>
           </App>
         </BrowserRouter>
