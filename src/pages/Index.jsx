@@ -5,7 +5,7 @@ export default function Index() {
   const navigate = useNavigate();
   return (
     <div className="flex flex-col items-center justify-center w-[90%] h-[80vh] bg-[#F7F4F1] opacity-90">
-      <img src={logo} alt="Logo La Bastilla" className="w-10 mb-6" />
+      <img src={logo} alt="Logo La Bastilla" className="w-30 mb-6" />
       <h1 className="text-4xl mb-1 font-bold">NUPZIAL | LA BASTILLA</h1>
       <h2 className="text-2xl mb-8">¿Preparado para la boda de tus sueños?</h2>
       <button
