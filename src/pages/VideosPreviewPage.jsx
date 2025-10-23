@@ -188,30 +188,6 @@ export default function ImagesPreviewPage() {
             <Typography>No hay {type} generado</Typography>
           </Box>
         )}
-        <CardActions>
-        <Button 
-          variant="contained"
-          onClick={onRegenerate} 
-          disabled={data.loading}
-          fullWidth
-          sx={{
-            backgroundColor: '#D29591',
-            color: 'white',
-            py: 1.5,
-            '&:hover': {
-              backgroundColor: '#AD5752',
-              boxShadow: '0 6px 8px rgba(0,0,0,0.15)',
-            },
-            '&:disabled': {
-              backgroundColor: '#e0e0e0',
-            },
-            transition: 'all 0.3s ease',
-          }}
-        >
-          {data.loading ? <CircularProgress size={24} /> : `Volver a generar vídeo ${title}`}
-        </Button>
-
-        </CardActions>
       </Card>
     );
   };
@@ -273,14 +249,6 @@ export default function ImagesPreviewPage() {
   return (
     <div className='flex flex-col items-center justify-center w-[90%]  bg-[#F7F4F1] opacity-90 py-8 overflow-y-auto h-[80vh] max-h-[80vh]'>
       <h2 className="text-3xl font-bold mb-8 pt-140 md:pt-0">Elementos generados</h2>
-      {/* Previsualización de imágenes pequeñas */}
-      <Box sx={{ display: 'flex', gap: 2, mb: 4, justifyContent: 'center' }}>
-        {cartelImage && (
-          <Box sx={{ width: 80, height: 80, borderRadius: 2, overflow: 'hidden', boxShadow: 2 }}>
-            <img src={cartelImage} alt="Cartel preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </Box>
-        )}
-      </Box>
       <Box sx={{ width: '100%', maxWidth: '1400px' }}>
         <Grid container spacing={4} justifyContent="center">
           <Grid item xs={12} md={4}>
