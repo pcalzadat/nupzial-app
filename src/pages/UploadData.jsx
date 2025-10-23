@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useVideo } from '../VideoContext';
 import { useData } from '../DataContext';
+import logo from '../assets/img/labastilla-logo.png';
 
 const API_BASE_URL = 'https://nupzial-api-acc0f3hmhvg0c4d6.spaincentral-01.azurewebsites.net';
 
@@ -160,6 +161,7 @@ export default function UploadData() {
   return (
     <div className="flex flex-col items-center justify-center w-[90%] h-[80vh] bg-[#F7F4F1] opacity-90">
       <div className="flex flex-col w-full max-w-4xl justify-center items-center overflow-y-auto">
+        <img src={logo} alt="Logo La Bastilla" className="w-30 mb-6" />
       <h2 className="text-3xl text-center font-bold w-[80%] md:w-full mb-8 mt-42 md:mt-0">Cargar archivos para generar el vídeo</h2>
           <div className='flex flex-col md:flex-row gap-x-8 gap-y-2 md:gap-y-8 justify-center items-center'>
           <div className="flex flex-col flex-1">
