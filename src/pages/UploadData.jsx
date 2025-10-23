@@ -238,7 +238,7 @@ export default function UploadData() {
           
           <div className="flex flex-col flex-1 items-center justify-center">
             <div className="mb-4 w-full">
-              <label className="block text-left text-sm font-bold text-gray-400 mb-1" htmlFor="fecha">Fecha en que se conocieron*</label>
+              <label className="block text-left text-sm font-bold text-gray-400 mb-1" htmlFor="fecha">Fecha de la boda*</label>
               <input
                 id="fecha"
                 type="date"

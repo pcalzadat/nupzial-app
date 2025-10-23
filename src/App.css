@@ -45,7 +45,7 @@ html {
 body {
     /* Asegura que el fondo y el color de texto por defecto sean de modo claro */
     background-color: white !important; /* O el color de fondo base de tu app */
-    color: black !important; /* O el color de texto base de tu app (ej: text-gray-900) */
+    color: rgb(35, 34, 34) !important; /* O el color de texto base de tu app (ej: text-gray-900) */
 
     /* Otra propiedad para anular la inversión de colores */
     -webkit-tap-highlight-color: transparent; /* A veces ayuda */
