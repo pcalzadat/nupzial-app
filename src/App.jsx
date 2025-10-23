@@ -9,7 +9,7 @@ function App({ children }) {
       {/* Overlay */}
       <div className="fixed inset-0 -z-10 bg-[#F7F4F1] opacity-90 select-none pointer-events-none" />
       {/* Header fijo */}
-      <Header />
+      {/*<Header />*/}
       {/* Contenido absolutamente centrado */}
       <main className="absolute inset-0 flex items-center justify-center w-full h-full z-10 overflow-hidden">
         {children}

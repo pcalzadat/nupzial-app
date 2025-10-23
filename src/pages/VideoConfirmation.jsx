@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import {useEffect } from 'react';
-import logo from '../assets/img/labastilla-icon.svg';
+import logo from '../assets/img/labastilla-logo.png';
 
 export default function VideoConfirmation() {
   const navigate = useNavigate();

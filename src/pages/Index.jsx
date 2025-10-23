@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import logo from '../assets/img/labastilla-icon.svg';
+import logo from '../assets/img/labastilla-logo.png';
 
 export default function Index() {
   const navigate = useNavigate();
