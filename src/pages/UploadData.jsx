@@ -29,6 +29,9 @@ export default function UploadData() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  const [acceptTerms1, setAcceptTerms1] = useState(false);
+  const [acceptTerms2, setAcceptTerms2] = useState(false);
+
   useEffect(() => {
     console.log("Data context changed:", dataContext);
   }, [dataContext]);
@@ -277,20 +280,33 @@ export default function UploadData() {
       {success && <div className="mb-2 text-green-600">{success}</div>}
       <div className='flex gap-4'>
         <button
-          className="px-10 py-3 bg-[#D29591] text-white rounded-lg text-lg hover:bg-[#AD5752] transition mt-2 md:mt-12 mb-8 md:mb-0 disabled:opacity-50"
-          onClick={handleGenerarVideoDemo}
-          disabled={loading}
-        >
-          {loading ? 'Generando vídeo...' : 'Generar vídeo demo'}
-        </button>
-        <button
           className="px-10 py-3 bg-[#AD5752] text-white rounded-lg text-lg hover:bg-[#661B17] transition mt-2 md:mt-12 mb-8 md:mb-0 disabled:opacity-50"
           onClick={handleGenerarVideo}
-          disabled={loading}
+          disabled={loading || !acceptTerms1 || !acceptTerms2}
         >
           {loading ? 'Generando vídeo...' : 'Generar vídeo real'}
         </button>
       </div>
+      <div className="flex flex-col gap-2 w-full max-w-md mt-2 mb-4">
+  <label className="flex items-center gap-2 text-sm">
+    <input
+      type="checkbox"
+      checked={acceptTerms1}
+      onChange={(e) => setAcceptTerms1(e.target.checked)}
+      className="w-4 h-4 text-[#AD5752] rounded focus:ring-[#AD5752]"
+    />
+    <span>Doy mi consentimiento para que LA BASTILLA pueda tratar mis datos personales con la finalidad de ofrecer asesoramiento sobre la gama de productos ofertados.</span>
+  </label>
+  <label className="flex items-center gap-2 text-sm">
+    <input
+      type="checkbox"
+      checked={acceptTerms2}
+      onChange={(e) => setAcceptTerms2(e.target.checked)}
+      className="w-4 h-4 text-[#AD5752] rounded focus:ring-[#AD5752]"
+    />
+    <span>Doy mi consentimiento para que LA BASTILLA pueda tratar mis datos personales con la finalidad del envío de comunicaciones comerciales sobre sus productos y servicios.</span>
+  </label>
+</div>
       </div>
       
       
