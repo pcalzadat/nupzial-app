@@ -49,3 +49,23 @@ button {
   }
 }
 
+/* Agrega esto a tu archivo CSS principal/global (NO en el código de Tailwind) */
+
+html {
+    /* Desactiva la inversión de colores en navegadores basados en WebKit (iOS, Safari) */
+    -webkit-text-fill-color: initial; 
+    -webkit-text-stroke-color: initial; 
+    
+    /* Evita que Chrome o Edge (basados en Chromium) fuerce el modo oscuro */
+    color-scheme: light !important; 
+}
+
+body {
+    /* Asegura que el fondo y el color de texto por defecto sean de modo claro */
+    background-color: white !important; /* O el color de fondo base de tu app */
+    color: black !important; /* O el color de texto base de tu app (ej: text-gray-900) */
+
+    /* Otra propiedad para anular la inversión de colores */
+    -webkit-tap-highlight-color: transparent; /* A veces ayuda */
+}
+
