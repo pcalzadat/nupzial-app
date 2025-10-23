@@ -250,6 +250,16 @@ export default function ImagesPreviewPage() {
     <div className='flex flex-col items-center justify-center w-[90%]  bg-[#F7F4F1] opacity-90 py-8 overflow-y-auto h-[80vh] max-h-[80vh]'>
       <h2 className="text-3xl font-bold mb-8 pt-140 md:pt-0">Vídeos generados</h2>
       <Box sx={{ width: '100%', maxWidth: '1400px' }}>
+        <Grid container spacing={4} justifyContent="center">
+          <Grid item xs={12} md={4}>
+            {renderMedia('cartel')}
+          </Grid>
+          
+          <Grid item xs={12} md={4}>
+            {renderMedia('pareja')}
+          </Grid>
+        </Grid>
+
         <Box sx={{ mt: 4, textAlign: 'center' }}>
         <Button
           variant="contained"
