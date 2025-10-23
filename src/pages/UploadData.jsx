@@ -287,6 +287,8 @@ export default function UploadData() {
           {loading ? 'Generando vídeo...' : 'Generar vídeo real'}
         </button>
       </div>
+      </div>
+      
       <div className="flex flex-col gap-2 w-full max-w-md mt-2 mb-4">
   <label className="flex items-center gap-2 text-sm">
     <input
@@ -307,9 +309,6 @@ export default function UploadData() {
     <span>Doy mi consentimiento para que LA BASTILLA pueda tratar mis datos personales con la finalidad del envío de comunicaciones comerciales sobre sus productos y servicios.</span>
   </label>
 </div>
-      </div>
-      
-      
     </div>
   );
 }
