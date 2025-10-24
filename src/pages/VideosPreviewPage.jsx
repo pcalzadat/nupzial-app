@@ -5,7 +5,7 @@ import logo from '../assets/img/labastilla-logo.png';
 
 import { useData } from '../DataContext'; 
 
-
+//const API_BASE_URL = 'http://127.0.0.1:8000';
 const API_BASE_URL = 'https://nupzial-api-acc0f3hmhvg0c4d6.spaincentral-01.azurewebsites.net';
 
 export default function ImagesPreviewPage() {
@@ -277,6 +277,7 @@ export default function ImagesPreviewPage() {
         email2: dataContext.persona2.email,
         cartel_video: cartel.url,
         pareja_video: pareja.url,
+        isImage: false
       };
 
       console.log('Sending video generation request with:', requestData);
@@ -311,6 +312,62 @@ export default function ImagesPreviewPage() {
       setFinalVideoLoading(false);
     }
   };
+
+  const handleGenerarVideoFinalImg = async () => {
+    if (!cartel.url /*|| !pareja.url*/) {
+      setFinalVideoError('Por favor genera primero el cartel y la pareja');
+      return;
+    }
+
+    setFinalVideoLoading(true);
+    setFinalVideoError('');
+
+    try {
+
+      const requestData = {
+        id: dataContext.id,
+        nombre1: dataContext.persona1.nombre,
+        nombre2: dataContext.persona2.nombre,
+        email1: dataContext.persona1.email,
+        email2: dataContext.persona2.email,
+        cartel_video: cartel.url, 
+        pareja_video: dataContext.imagenParejaUrl,
+        isImage: true
+      };
+
+      console.log('Sending video generation request with:', requestData);
+
+      const response = fetch(`${API_BASE_URL}/api/generate_final_video`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      navigate('/confirmacion_video')
+
+      const data = await response.json();
+      console.log('Video generation response:', data);
+
+      if (data.status === 'success') {
+        // Navegar a la página de visualización del video final
+        navigate('/generacion_video', { 
+          state: { 
+            videoUrl: data.video_path
+          }
+        });
+      } else {
+        setFinalVideoError(data.message || 'Error al generar el video final');
+      }
+    } catch (error) {
+      console.error('Error generating final video:', error);
+      setFinalVideoError('Error al conectar con el servidor. Por favor, inténtalo de nuevo.');
+    } finally {
+      setFinalVideoLoading(false);
+    }
+  };
+
 
   return (
     <div className='flex flex-col items-center justify-center w-[90%]  bg-[#F7F4F1] opacity-90 py-8 overflow-y-auto h-[80vh] max-h-[80vh]'>
@@ -359,6 +416,39 @@ export default function ImagesPreviewPage() {
           }}
         >
           {finalVideoLoading ? 'Generando video final...' : 'Generar Video Final'}
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleGenerarVideoFinalImg}
+          disabled={finalVideoLoading || !cartel.url /*|| !pareja.url*/}
+          startIcon={finalVideoLoading ? <CircularProgress size={24} /> : null}
+          sx={{ 
+            ml: 5,
+            mt: 2, 
+            py: 1.5, 
+            px: 4, 
+            fontSize: '1.1rem',
+            backgroundColor: '#000000',
+            color: 'white',
+            fontWeight: 'bold',
+            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+            '&:hover': {
+              backgroundColor: '#646060ff',
+              boxShadow: '0 6px 8px rgba(0,0,0,0.15)',
+              transform: 'translateY(-2px)',
+            },
+            '&:active': {
+              transform: 'translateY(0)',
+            },
+            '&:disabled': {
+              backgroundColor: '#e0e0e0',
+              color: '#a0a0a0',
+              cursor: 'not-allowed',
+            },
+            transition: 'all 0.3s ease',
+          }}
+        >
+          {finalVideoLoading ? 'Generando video final...' : 'Generar Video Imagen'}
         </Button>
           {finalVideoError && (
             <Typography color="error" sx={{ mt: 1 }}>
