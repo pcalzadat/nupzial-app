@@ -8,7 +8,7 @@ export default function VideoConfirmation() {
   
   return (
     <div className="flex flex-col items-center justify-center w-[90%] h-[80vh] bg-[#F7F4F1] opacity-90">
-      <img src={logo} alt="Logo La Bastilla" className="w-30 mb-6" />
+      {/*<img src={logo} alt="Logo La Bastilla" className="w-30 mb-6" />*/}
       <h1 className="text-4xl mb-6 font-bold">¡Ya está!</h1>
       <h2 className="text-2xl mb-2">Dentro de nada recibirás en tu email el vídeo generado.</h2>
       <p className='mb-8'>Aprovecha y reserva la fecha de tus invitados</p>

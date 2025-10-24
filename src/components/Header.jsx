@@ -14,7 +14,7 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full flex items-center justify-between px-8 py-4 bg-transparent z-50 fixed top-0 left-0">
+    <header className="w-full flex items-center justify-center px-8 py-4 bg-transparent z-50 fixed top-0 left-0">
       <a
         href="https://labastilla.com" // Cambia esta URL por la que desees
         target="_blank"
@@ -23,14 +23,14 @@ export default function Header() {
       >
         <img src={logo} alt="Logo La Bastilla" className="w-44" />
       </a>
-      <div className="flex gap-4">
+      {/*<div className="flex gap-4">
         <button
           className="px-6 py-2 text-black rounded-lg text-lg uppercase font-semibold hover:bg-[#D29591] transition"
           onClick={handleNewVideo}
         >
           Generar nuevo vídeo
         </button>
-      </div>
+      </div>*/}
     </header>
   );
 }
