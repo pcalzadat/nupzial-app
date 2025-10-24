@@ -14,7 +14,7 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full flex items-center justify-center px-8 py-4 bg-transparent z-50 fixed top-0 left-0">
+    <header className="w-full flex items-center justify-center px-8 py-4 bg-transparent z-50">
       <a
         href="https://labastilla.com" // Cambia esta URL por la que desees
         target="_blank"
