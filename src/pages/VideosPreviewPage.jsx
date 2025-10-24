@@ -152,7 +152,71 @@ export default function ImagesPreviewPage() {
     if (dataContext.imagenParejaUrl) generarPareja();
   }, [cartelImage]);
 
-  const renderMedia = (type) => {
+  const renderMediaPareja = (type) => {
+    const data = type === 'cartel' ? cartel : pareja;
+    const title = type === 'cartel' ? 'Cartel' : 'Pareja';
+    const onRegenerate = type === 'cartel' ? generarCartel : generarPareja;
+      
+    return (
+      <Card>
+        {data.loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 225 }}>
+            <CircularProgress />
+          </Box>
+        ) : data.error && !data.isPlaceholder ? (
+          <Box sx={{ p: 2, height: 225, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <Typography color="error" align="center">{data.error}</Typography>
+          </Box>
+        ) : data.url ? (
+            <Box sx={{ position: 'relative', height: 225 }}>
+              {console.log("data.url video", data.url)}
+              <video
+                autoPlay
+                loop
+                muted
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              >
+                <source src={data.url} type="video/mp4" />
+                Tu navegador no soporta el elemento de video.
+              </video>
+            </Box>
+        ) : (
+          <Box sx={{ height: 225, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography>No hay {type} generado</Typography>
+          </Box>
+        )}
+        <CardActions>
+          <Button 
+            variant="contained"
+            onClick={onRegenerate} 
+            disabled={data.loading}
+            fullWidth
+            sx={{
+              backgroundColor: '#D29591',
+              color: 'white',
+              py: 1.5,
+              '&:hover': {
+                backgroundColor: '#AD5752',
+                boxShadow: '0 6px 8px rgba(0,0,0,0.15)',
+              },
+              '&:disabled': {
+                backgroundColor: '#e0e0e0',
+              },
+              transition: 'all 0.3s ease',
+            }}
+          >
+            {data.loading ? <CircularProgress size={24} /> : `Volver a generar vídeo ${title}`}
+          </Button>
+          </CardActions>
+      </Card>
+    );
+  };
+
+  const renderMediaCartel = (type) => {
     const data = type === 'cartel' ? cartel : pareja;
     const title = type === 'cartel' ? 'Cartel' : 'Pareja';
     const onRegenerate = type === 'cartel' ? generarCartel : generarPareja;
@@ -192,6 +256,7 @@ export default function ImagesPreviewPage() {
       </Card>
     );
   };
+
 
   const handleGenerarVideoFinal = async () => {
     if (!cartel.url /*|| !pareja.url*/) {
@@ -254,11 +319,11 @@ export default function ImagesPreviewPage() {
       <Box sx={{ width: '100%', maxWidth: '1400px' }}>
         <Grid container spacing={4} justifyContent="center">
           <Grid item xs={12} md={4}>
-            {renderMedia('cartel')}
+            {renderMediaCartel('cartel')}
           </Grid>
           
           <Grid item xs={12} md={4}>
-            {renderMedia('pareja')}
+            {renderMediaPareja('pareja')}
           </Grid>
         </Grid>
 

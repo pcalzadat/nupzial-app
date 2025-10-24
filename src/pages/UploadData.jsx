@@ -280,11 +280,18 @@ export default function UploadData() {
       {success && <div className="mb-2 text-green-600">{success}</div>}
       <div className='flex gap-4'>
         <button
+          className="px-10 py-3 bg-[#D29591] text-white rounded-lg text-lg hover:bg-[#AD5752] transition mt-2 md:mt-12 mb-8 md:mb-0 disabled:opacity-50"
+          onClick={handleGenerarVideoDemo}
+          disabled={loading}
+        >
+          {loading ? 'Generando vídeo...' : 'Generar vídeo demo'}
+        </button>
+        <button
           className="px-10 py-3 bg-[#AD5752] text-white rounded-lg text-lg hover:bg-[#661B17] transition mt-2 md:mt-12 mb-8 md:mb-0 disabled:opacity-50"
           onClick={handleGenerarVideo}
           disabled={loading || !acceptTerms1 || !acceptTerms2}
         >
-          {loading ? 'Generando vídeo...' : 'Generar vídeo real'}
+          {loading ? 'Generando vídeo...' : 'Generar vídeo'}
         </button>
       </div>
               <div className="flex flex-col gap-2 w-full max-w-lg mt-2 mb-4">
