@@ -164,7 +164,7 @@ export default function UploadData() {
   return (
     <div className="flex flex-col items-center justify-center w-[90%] h-[80vh] bg-[#F7F4F1] opacity-90">
       <div className="flex flex-col w-full max-w-4xl justify-center items-center overflow-y-auto">
-       {/*<img src={logo} alt="Logo La Bastilla" className="w-30 mb-6" />*/}
+       <img src={logo} alt="Logo La Bastilla" className="w-50 mb-4" />
       <h2 className="text-3xl text-center font-bold w-[80%] md:w-full mb-8 mt-42 md:mt-0">Cargar archivos para generar el vídeo</h2>
           <div className='flex flex-col md:flex-row gap-x-8 gap-y-2 md:gap-y-8 justify-center items-center'>
           <div className="flex flex-col flex-1">
@@ -279,6 +279,13 @@ export default function UploadData() {
         {error && <div className="mb-2 text-red-600">{error}</div>}
       {success && <div className="mb-2 text-green-600">{success}</div>}
       <div className='flex gap-4'>
+        <button
+          className="px-10 py-3 bg-[#AD5752] text-white rounded-lg text-lg hover:bg-[#661B17] transition mt-2 md:mt-12 mb-8 md:mb-0 disabled:opacity-50"
+          onClick={handleGenerarVideoDemo}
+          disabled={loading || !acceptTerms1 || !acceptTerms2}
+        >
+          {loading ? 'Generando vídeo...' : 'Generar vídeo real'}
+        </button>
         <button
           className="px-10 py-3 bg-[#AD5752] text-white rounded-lg text-lg hover:bg-[#661B17] transition mt-2 md:mt-12 mb-8 md:mb-0 disabled:opacity-50"
           onClick={handleGenerarVideo}
