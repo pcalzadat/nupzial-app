@@ -68,6 +68,7 @@ export default function ImagesPreviewPage() {
           telef1: dataContext.persona1.telefono,
           telef2: dataContext.persona2.telefono,
           fecha: dataContext.fecha,
+          image_url: '',
         }),
       });
 
