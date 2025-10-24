@@ -173,7 +173,7 @@ export default function UploadData() {
               <input
                 id="nombre1"
                 type="text"
-                placeholder="Nombre Apellido"
+                placeholder="Nombre"
                 value={nombre1}
                 onChange={e => setNombre1(e.target.value)}
                 className="mb-1 w-full px-3 py-2 border rounded border-[#D29591]"
@@ -209,7 +209,7 @@ export default function UploadData() {
               <input
                 id="nombre2"
                 type="text"
-                placeholder="Nombre Apellido"
+                placeholder="Nombre"
                 value={nombre2}
                 onChange={e => setNombre2(e.target.value)}
                 className="mb-1 w-full px-3 py-2 border rounded border-[#D29591]"
