@@ -63,12 +63,11 @@ export default function ImagesPreviewPage() {
           id: dataContext.id,
           nombre1: dataContext.persona1.nombre,
           nombre2: dataContext.persona2.nombre,
-          email1: dataContext.persona1.nombre,
-          email2: dataContext.persona2.nombre,
-          telef1: dataContext.persona1.nombre,
-          telef2: dataContext.persona2.nombre,
+          email1: dataContext.persona1.email,
+          email2: dataContext.persona2.email,
+          telef1: dataContext.persona1.telefono,
+          telef2: dataContext.persona2.telefono,
           fecha: dataContext.fecha,
-          image_url: '',
         }),
       });
 
