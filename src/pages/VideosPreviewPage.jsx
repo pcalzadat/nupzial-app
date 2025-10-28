@@ -5,8 +5,8 @@ import logo from '../assets/img/labastilla-logo.png';
 
 import { useData } from '../DataContext'; 
 
-//const API_BASE_URL = 'http://127.0.0.1:8000';
-const API_BASE_URL = 'https://nupzial-api-acc0f3hmhvg0c4d6.spaincentral-01.azurewebsites.net';
+const API_BASE_URL = 'http://127.0.0.1:8000';
+//const API_BASE_URL = 'https://nupzial-api-acc0f3hmhvg0c4d6.spaincentral-01.azurewebsites.net';
 
 export default function ImagesPreviewPage() {
   const location = useLocation();
@@ -17,12 +17,14 @@ export default function ImagesPreviewPage() {
 
   // Accede a las imágenes pasadas por navigate
   const cartelImage = dataContext.cartelImgUrl;
+  const polaroidImage = dataContext.imagenPolaroidUrl;
 
   console.log("dataContext en ImagesPreviewPage:", dataContext);
 
   // States for each generation
   const [cartel, setCartel] = useState({ url: null, imageUrl: cartelImage, loading: false, error: '' });
   const [pareja, setPareja] = useState({ url: null, imageUrl: null, loading: false, error: '' });
+  const [polaroid, setPolaroid] = useState({ url: null, imageUrl: polaroidImage, loading: false, error: '' });
 
   const [finalVideoLoading, setFinalVideoLoading] = useState(false);
   const [finalVideoError, setFinalVideoError] = useState('');
@@ -88,6 +90,62 @@ export default function ImagesPreviewPage() {
     }
   };
 
+  const generarPolaroid = async () => {
+    console.log("Generando polaroid", dataContext.persona1.nombre, dataContext.persona2.nombre);
+    console.log("polaroidImage:", dataContext.imagenPolaroidUrl);
+
+    if (!polaroidImage) {
+      setPolaroid(prev => ({ ...prev, error: 'Faltan la imagen de la polaroid' }));
+      return;
+    }
+
+    setPolaroid(prev => ({ ...prev, loading: true, error: '' }));
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/create_polaroid_video`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          id: dataContext.id,
+          image_url: dataContext.imagenPolaroidUrl,
+          demo: isDemo
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Error response:', data);
+        if (data.placeholder_url) {
+          return setPolaroid(prev => ({
+            ...prev,
+            url: `${API_BASE_URL}${data.placeholder_url}`,
+            loading: false,
+            isPlaceholder: true
+          }));
+        }
+        throw new Error(data.message || 'Error al generar la polaroid');
+      }
+
+      setPolaroid(prev => ({
+        ...prev,
+        url: `${data.video_url}`,
+        loading: false,
+        error: ''
+      }));
+
+    } catch (error) {
+      console.error('Error:', error);
+      setPolaroid(prev => ({
+        ...prev,
+        loading: false,
+        error: error.message || 'Error al generar la polaroid'
+      }));
+    }
+  };
+
   // Generate video (image to video)
   const generarPareja = async () => {
 
@@ -148,8 +206,10 @@ export default function ImagesPreviewPage() {
 
     console.log("Generando todo");
     console.log("Data context", dataContext);
+    console.log("cartelImage", cartelImage);
     if (cartelImage) generarCartel();
     if (dataContext.imagenParejaUrl) generarPareja();
+    if(dataContext.imagenPolaroidUrl) generarPolaroid();
   }, [cartelImage]);
 
   const renderMediaPareja = (type) => {
@@ -216,6 +276,71 @@ export default function ImagesPreviewPage() {
     );
   };
 
+   const renderMediaPolaroid = (type) => {
+    const data = type === 'polaroid' ? polaroid : pareja;
+    const title = type === 'polaroid' ? 'polaroid' : 'Pareja';
+    const onRegenerate = type === 'polaroid' ? generarPolaroid : generarPareja;
+      
+    return (
+      <Card>
+        {data.loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 225 }}>
+            <CircularProgress />
+          </Box>
+        ) : data.error && !data.isPlaceholder ? (
+          <Box sx={{ p: 2, height: 225, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <Typography color="error" align="center">{data.error}</Typography>
+          </Box>
+        ) : data.url ? (
+            <Box sx={{ position: 'relative', height: 225 }}>
+              {console.log("data.url video", data.url)}
+              <video
+                autoPlay
+                loop
+                muted
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              >
+                <source src={data.url} type="video/mp4" />
+                Tu navegador no soporta el elemento de video.
+              </video>
+            </Box>
+        ) : (
+          <Box sx={{ height: 225, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Typography>No hay {type} generado</Typography>
+          </Box>
+        )}
+        <CardActions>
+          <Button 
+            variant="contained"
+            onClick={onRegenerate} 
+            disabled={data.loading}
+            fullWidth
+            sx={{
+              backgroundColor: '#D29591',
+              color: 'white',
+              py: 1.5,
+              '&:hover': {
+                backgroundColor: '#AD5752',
+                boxShadow: '0 6px 8px rgba(0,0,0,0.15)',
+              },
+              '&:disabled': {
+                backgroundColor: '#e0e0e0',
+              },
+              transition: 'all 0.3s ease',
+            }}
+          >
+            {data.loading ? <CircularProgress size={24} /> : `Volver a generar vídeo ${title}`}
+          </Button>
+          </CardActions>
+      </Card>
+    );
+  };
+
+
   const renderMediaCartel = (type) => {
     const data = type === 'cartel' ? cartel : pareja;
     const title = type === 'cartel' ? 'Cartel' : 'Pareja';
@@ -277,6 +402,7 @@ export default function ImagesPreviewPage() {
         email2: dataContext.persona2.email,
         cartel_video: cartel.url,
         pareja_video: pareja.url,
+        polaroid_video: polaroid.url,
         isImage: false
       };
 
@@ -332,6 +458,7 @@ export default function ImagesPreviewPage() {
         email2: dataContext.persona2.email,
         cartel_video: cartel.url, 
         pareja_video: dataContext.imagenParejaUrl,
+        polaroid_video: polaroid.url,
         isImage: true
       };
 
@@ -378,7 +505,9 @@ export default function ImagesPreviewPage() {
           <Grid item xs={12} md={4}>
             {renderMediaCartel('cartel')}
           </Grid>
-          
+          <Grid item xs={12} md={4}>
+            {renderMediaPolaroid('polaroid')}
+          </Grid>
           <Grid item xs={12} md={4}>
             {renderMediaPareja('pareja')}
           </Grid>

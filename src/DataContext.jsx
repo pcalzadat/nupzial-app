@@ -10,6 +10,7 @@ const initialData = {
   imagen: null,
   imagenParejaUrl: null,
   cartelImgUrl: null,
+  imagenPolaroidUrl: null,
   demoGeneration: false
 };
 

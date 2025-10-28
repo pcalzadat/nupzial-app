@@ -4,8 +4,8 @@ import { useVideo } from '../VideoContext';
 import { useData } from '../DataContext';
 import logo from '../assets/img/labastilla-logo.png';
 
-//const API_BASE_URL = 'http://127.0.0.1:8000';
-const API_BASE_URL = 'https://nupzial-api-acc0f3hmhvg0c4d6.spaincentral-01.azurewebsites.net';
+const API_BASE_URL = 'http://127.0.0.1:8000';
+//const API_BASE_URL = 'https://nupzial-api-acc0f3hmhvg0c4d6.spaincentral-01.azurewebsites.net';
 
 export default function UploadData() {
   const navigate = useNavigate();

@@ -5,8 +5,8 @@ import logo from '../assets/img/labastilla-logo.png';
 
 import { useData } from '../DataContext'; 
 
-//const API_BASE_URL = 'http://127.0.0.1:8000';
-const API_BASE_URL = 'https://nupzial-api-acc0f3hmhvg0c4d6.spaincentral-01.azurewebsites.net';
+const API_BASE_URL = 'http://127.0.0.1:8000';
+//const API_BASE_URL = 'https://nupzial-api-acc0f3hmhvg0c4d6.spaincentral-01.azurewebsites.net';
 
 export default function ImagesPreviewPage() {
   const location = useLocation();
@@ -16,6 +16,7 @@ export default function ImagesPreviewPage() {
 
   // States for each generation
   const [cartel, setCartel] = useState({ imageUrl: null, loading: false, error: '' });
+  const [polaroid, setPolaroid] = useState({ imageUrl: null, loading: false, error: '' });
 
   const [aiVideosLoading, setAiVideosLoading] = useState(false);
   const [finalVideoError, setFinalVideoError] = useState('');
@@ -34,6 +35,7 @@ export default function ImagesPreviewPage() {
     
     if ((dataContext.persona1.nombre && dataContext.persona2.nombre && dataContext.fecha) || isDemo) {
       generarCartel();
+      generarPolaroid();
     }
   }, [dataContext.persona1.nombre, dataContext.persona2.nombre, dataContext.fecha, isDemo]);
   
@@ -73,6 +75,7 @@ export default function ImagesPreviewPage() {
       });
 
       const dataImg = await responseImg.json();
+      console.log("Respuesta de la API del cartel:", dataImg);  
 
       if (!responseImg.ok || !dataImg.image_url) {
         setCartel(prev => ({
@@ -84,11 +87,12 @@ export default function ImagesPreviewPage() {
       }
 
       const imageUrl = dataImg.image_url;
+      console.log("Cartel generado:", imageUrl);
 
-      setDataContext({
-          ...dataContext,
-          cartelImgUrl: imageUrl
-        });
+      setDataContext(prev => ({
+        ...prev,
+        cartelImgUrl: imageUrl,
+      }));
 
       setCartel(prev => ({
         ...prev,
@@ -102,6 +106,63 @@ export default function ImagesPreviewPage() {
         ...prev,
         loading: false,
         error: error.message || 'Error al generar el cartel'
+      }));
+    }
+  };
+
+  const generarPolaroid = async () => {
+    if ((!dataContext.fecha) && !isDemo) {
+      setPolaroid(prev => ({ ...prev, error: 'Faltan la fecha' }));
+      return;
+    }
+
+    setPolaroid(prev => ({ ...prev, loading: true, error: '' }));
+
+    try {
+      // Paso 1: Generar la imagen del cartel
+      const responseImg = await fetch(`${API_BASE_URL}/api/create_image_polaroid`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: dataContext.id,
+          fecha: dataContext.fecha,
+          image_url: dataContext.imagenParejaUrl,
+          demo: isDemo
+        }),
+      });
+
+      const dataImg = await responseImg.json();
+
+      if (!responseImg.ok || !dataImg.image_url) {
+        setPolaroid(prev => ({
+          ...prev,
+          loading: false,
+          error: dataImg.message || 'No se pudo generar la imagen del cartel'
+        }));
+        return;
+      }
+
+      const imageUrl = dataImg.image_url;
+
+      setDataContext(prev => ({
+        ...prev,
+        imagenPolaroidUrl: imageUrl,
+      }));
+
+      setPolaroid(prev => ({
+        ...prev,
+        imageUrl,
+        loading: false,
+        error: ''
+      }));
+
+    } catch (error) {
+      setPolaroid(prev => ({
+        ...prev,
+        loading: false,
+        error: error.message || 'Error al generar la polaroid'
       }));
     }
   };
@@ -122,6 +183,33 @@ export default function ImagesPreviewPage() {
           component="img"
           image={cartel.imageUrl}
           alt="Cartel generado"
+          sx={{ height: 225, objectFit: 'cover' }}
+        />
+      ) : (
+        <Box sx={{ height: 225, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Typography>No hay cartel generado</Typography>
+        </Box>
+      )}
+    </Card>
+  );
+
+
+
+  const renderPolaroid = () => (
+    <Card>
+      {polaroid.loading ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 225 }}>
+          <CircularProgress />
+        </Box>
+      ) : polaroid.error ? (
+        <Box sx={{ p: 2, height: 225, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <Typography color="error" align="center">{polaroid.error}</Typography>
+        </Box>
+      ) : polaroid.imageUrl ? (
+        <CardMedia
+          component="img"
+          image={polaroid.imageUrl}
+          alt="polaroid generado"
           sx={{ height: 225, objectFit: 'cover' }}
         />
       ) : (
@@ -154,6 +242,9 @@ export default function ImagesPreviewPage() {
         <Grid container spacing={4} justifyContent="center">
           <Grid item xs={12} md={4}>
             {renderCartel()}
+          </Grid>
+          <Grid item xs={12} md={4}>
+            {renderPolaroid()}
           </Grid>
         </Grid>
 
