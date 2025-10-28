@@ -556,8 +556,8 @@ export default function ImagesPreviewPage() {
             mt: 2, 
             py: 1.5, 
             px: 4, 
-            fontSize: '1.1rem',
-            backgroundColor: '#000000',
+            fontSize: '0.9rem',
+            backgroundColor: '#636363ff',
             color: 'white',
             fontWeight: 'bold',
             boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
@@ -577,7 +577,7 @@ export default function ImagesPreviewPage() {
             transition: 'all 0.3s ease',
           }}
         >
-          {finalVideoLoading ? 'Generando video final...' : 'Generar Video Imagen'}
+          {finalVideoLoading ? 'Generando video final...' : 'Generar Video Imagen Estática'}
         </Button>
           {finalVideoError && (
             <Typography color="error" sx={{ mt: 1 }}>
